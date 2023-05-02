@@ -91,16 +91,16 @@ class SurfboardHNAP:
                 #'Referer' : 'http://{}/MotoSecurity.html'.format(host)
                 }
 
-        '''payload = {'GetMultipleHNAPs': {'GetMotoStatusStartupSequence': '',
+        payload = {'GetMultipleHNAPs': {'GetMotoStatusStartupSequence': '',
                 'GetMotoStatusConnectionInfo': '',
                 'GetMotoStatusDownstreamChannelInfo': '',
                 'GetMotoStatusUpstreamChannelInfo': '',
-                'GetMotoLagStatus': ''}}'''
+                'GetMotoLagStatus': ''}}
 
         cookies = {'uid' : '{}'.format(cookie_id),
                 'PrivateKey' : '{}'.format(privatekey)}
-        payload = {'GetMultipleHNAPs': {'GetMotoStatusSoftware': '',
-                'GetMotoStatusXXX': ''}}
+        '''payload = {'GetMultipleHNAPs': {'GetMotoStatusSoftware': '',
+                'GetMotoStatusXXX': ''}}'''
 
         r = self.s.post(url, headers=headers, cookies=cookies, json=payload)
         return r
