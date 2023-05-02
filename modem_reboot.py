@@ -14,8 +14,8 @@ class SurfboardHNAP:
         self.host = None
 
     def generate_keys(self, challenge, pubkey, password):
-        privatekey = hmac.new(pubkey+password, challenge).hexdigest().upper()
-        passkey = hmac.new(privatekey.encode(), challenge).hexdigest().upper()
+        privatekey = hmac.new(pubkey+password, challenge, digestmod='MD5').hexdigest().upper()
+        passkey = hmac.new(privatekey.encode(), challenge, digestmod='MD5').hexdigest().upper()
         self.privatekey = privatekey
         return (privatekey, passkey)
 
@@ -24,11 +24,11 @@ class SurfboardHNAP:
         curtime = str(int(time.time() * 1000))
         auth_key = curtime + '"http://purenetworks.com/HNAP1/{}"'.format(operation)
         privkey = privkey.encode()
-        auth = hmac.new(privkey, auth_key.encode())
+        auth = hmac.new(privkey, auth_key.encode(), digestmod='MD5')
         return auth.hexdigest().upper() + ' ' + curtime
 
     def _login_request(self, host):
-        url = 'http://{}/HNAP1/'.format(host)
+        url = 'https://{}/HNAP1/'.format(host)
         headers = {#'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.34 Safari/537.36',
                 #'Content-Type' : 'application/json; charset=UTF-8',
                 #'Accept' : 'application/json, text/javascript, */*; q=0.01',
@@ -40,7 +40,7 @@ class SurfboardHNAP:
         return r
 
     def _login_real(self, host, cookie_id, privatekey, passkey):
-        url = 'http://{}/HNAP1/'.format(host)
+        url = 'https://{}/HNAP1/'.format(host)
         auth = self.generate_hnap_auth('Login')
         headers = {'HNAP_AUTH' : auth,
                 #'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.34 Safari/537.36',
@@ -81,7 +81,7 @@ class SurfboardHNAP:
         cookie_id = self.cookie_id 
         privatekey = self.privatekey
 
-        url = 'http://{}/HNAP1/'.format(host)
+        url = 'https://{}/HNAP1/'.format(host)
         auth = self.generate_hnap_auth('GetMultipleHNAPs')
         headers = {'HNAP_AUTH' : auth,
                 #'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.34 Safari/537.36',
@@ -110,7 +110,7 @@ class SurfboardHNAP:
         cookie_id = self.cookie_id
         privatekey = self.privatekey
 
-        url = 'http://{}/HNAP1/'.format(host)
+        url = 'https://{}/HNAP1/'.format(host)
         auth = self.generate_hnap_auth('GetMultipleHNAPs')
         headers = {'HNAP_AUTH' : auth,
                 #'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.34 Safari/537.36',
@@ -137,7 +137,7 @@ class SurfboardHNAP:
         cookie_id = self.cookie_id
         privatekey = self.privatekey
 
-        url = 'http://{}/HNAP1/'.format(host)
+        url = 'https://{}/HNAP1/'.format(host)
         auth = self.generate_hnap_auth('SetStatusSecuritySettings')
         headers = {'HNAP_AUTH' : auth,
                 #'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.34 Safari/537.36',
